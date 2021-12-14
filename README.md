@@ -1,5 +1,7 @@
 # install-argocd
 ## 폐쇄망 구축 가이드
+> 아래의 가이드는, 우선적으로 외부 네트워크 통신이 가능한 환경에서 필요한 이미지들을 tar로 다운받고, 해당 tar들을 폐쇄망으로 이동시켜 작업합니다. 
+
 * 작업 디렉토리 생성 및 환경 변수 설정
 ```
 $ mkdir -p ~/argocd-install
@@ -56,7 +58,7 @@ $ sudo docker tag REDIS_IMG_URL ${REGISTRY}/redis:6.2.4-alpine
 $ sudo docker push ${REGISTRY}/redis:6.2.4-alpine
 ```
 
-* 폐쇄망에서 사용하는 별도의 레지스트리를 yaml에 주입
+* 레지스트리에 푸시된 이미지들을 install.yaml에 반영
 ```
 $ sed -i "s/quay.io\/argoproj/${REGISTRY}/g" install.yaml		 
 $ sed -i "s/argoprojlabs/${REGISTRY}/g" install.yaml		 
