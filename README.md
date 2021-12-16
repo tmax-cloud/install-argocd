@@ -18,7 +18,7 @@ export REDIS_IMG_URL=redis:6.2.4-alpine
 ```
 * 작업 디렉토리로 이동
 ```
-cd $GRAFANA_HOME
+cd $ARGOCD_WORKDIR
 ```
 * 외부 네트워크 통신이 가능한 환경에서 필요한 이미지 다운로드
 ```
