@@ -60,9 +60,9 @@ sudo docker push ${REGISTRY}/redis:6.2.4-alpine
 
 * 레지스트리에 푸시된 이미지들을 install.yaml에 반영
 ```
-sed -i "s/quay.io\/argoproj/${REGISTRY}/g" install.yaml		 
-sed -i "s/argoprojlabs/${REGISTRY}/g" install.yaml		 
-sed -i "s/ghcr.io\/dexidp/${REGISTRY}/g" install.yaml		 
+sed -i "s/quay.io/${REGISTRY}/g" install.yaml		 
+sed -i "s/argoprojlabs/${REGISTRY}\/argoprojlabs/g" install.yaml		 
+sed -i "s/ghcr.io/${REGISTRY}/g" install.yaml		 
 sed -i "s/redis:6.2.4-alpine/${REGISTRY}\/redis:6.2.4-alpine/g" install.yaml		 
 ```
 
