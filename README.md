@@ -68,6 +68,6 @@ sed -i "s/redis:6.2.4-alpine/${REGISTRY}\/redis:6.2.4-alpine/g" install.yaml
 
 * yaml 설치
 ```
-kubectl create namspace argocd
+kubectl create namespace argocd
 kubectl apply -n argocd -f install.yaml
 ```
