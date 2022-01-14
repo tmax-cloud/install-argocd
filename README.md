@@ -42,16 +42,16 @@ export REGISTRY=registryip:port
 * 생성한 이미지 tar 파일을 폐쇄망 환경으로 이동시킨 뒤 사용하려는 registry에 push.
 ```
 sudo docker load < argocd.tar
-sudo docker tag ARGOCD_IMG_URL ${REGISTRY}/argocd:latest
-sudo docker push ${REGISTRY}/argocd:latest
+sudo docker tag ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:latest
+sudo docker push ${REGISTRY}/argoproj/argocd:latest
 
 sudo docker load < argocd-notification.tar
-sudo docker tag  ARGOCD_NOTIFICATION_IMG_URL ${REGISTRY}/argocd-notifications:latest
-sudo docker push ${REGISTRY}/argocd-notifications:latest
+sudo docker tag  ARGOCD_NOTIFICATION_IMG_URL ${REGISTRY}/argoprojlabs/argocd-notifications:latest
+sudo docker push ${REGISTRY}/argoprojlabs/argocd-notifications:latest
 
 sudo docker load < dex.tar
-sudo docker tag DEX_IMG_URL ${REGISTRY}/dex:v2.30.0
-sudo docker push ${REGISTRY}/dex:v2.30.0
+sudo docker tag DEX_IMG_URL ${REGISTRY}/dexidp/dex:v2.30.0
+sudo docker push ${REGISTRY}/dexidp/dex:v2.30.0
 
 sudo docker load < redis.tar
 sudo docker tag REDIS_IMG_URL ${REGISTRY}/redis:6.2.4-alpine
