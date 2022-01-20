@@ -71,3 +71,35 @@ sed -i "s/redis:6.2.4-alpine/${REGISTRY}\/redis:6.2.4-alpine/g" install.yaml
 kubectl create namespace argocd
 kubectl apply -n argocd -f install.yaml
 ```
+
+## 초기 셋팅 가이드
+### ArgoCD UI 접속
+#### Ingress 연동
+
+
+### admin 초기 비밀번호 및 비밀번호 재설정
+1. admin 계정의 초기 비밀번호 얻어오기
+- argocd 설치 시, super 계정인 admin 계정을 default로 생성합니다. 
+- admin 계정의 초기 비밀번호는 auto-gen되어 argocd 네임스페이스 내 시크릿 argocd-initial-admin-secret에 저장됩니다. 따라서 아래의 kubectl 커맨드로 우선 password을 얻어옵니다.
+```
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+```
+2-1. (추천) UI를 통해 비밀번호 재설정하는 방법
+
+![image](https://user-images.githubusercontent.com/36444454/150266598-0d97a399-7d36-4205-9a45-e93cce0e6650.png)
+- 1) 브라우저로 ArgoCD UI 접속
+- 2) Username: admin / Passord: 위에서 얻어온 초기 비밀번호 기입하여 로그인
+- 3) 홈화면의 왼쪽 사이드 'User Info' 아이콘 클릭
+- 4) 왼쪽 상단 위에 "UPDATE PASSWORD"를 눌러 비밀번호 재설정
+
+2-2. kubectl을 통해 비밀번호 재설정하는 방법
+1. bcrypt을 이용하여 새로운 비밀번호에 대한 새로운 hash 값을 생성합니다.
+- brcrypt 사이트 추천 : https://www.browserling.com/tools/bcrypt 
+2. 새로운 hash 값으로 argocd-secret을 patch 시켜줍니다.
+```
+kubectl -n argocd patch secret argocd-secret \
+  -p '{"stringData": {
+    "admin.password": "{새로운 비밀번호에 대한 해쉬값을 여기 넣어주세요}",
+    "admin.passwordMtime": "'$(date +%FT%T%Z)'"
+  }}'
+```
