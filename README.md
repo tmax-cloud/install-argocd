@@ -72,7 +72,7 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f install.yaml
 ```
 
-## ArgoCD Serverd에 접근
+## ArgoCD Server에 접근
 기본적으로 ArgoCD API Server는 external IP로 노출이 되지 않기 때문에, ArgoCD Server에 UI로 접근하려면 argocd-server 서비스의 타입을 변경해주거나 argocd-server 서비스를 ingress와 연동하는 등의 추가 작업을 해야 합니다. 
 
 ### Ingress로 노출
