@@ -72,12 +72,17 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f install.yaml
 ```
 
-## 초기 셋팅 가이드
-### ArgoCD UI 접속
-#### Ingress 연동
+## ArgoCD Serverd에 접근
+기본적으로 ArgoCD API Server는 external IP로 노출이 되지 않기 때문에, ArgoCD Server에 UI로 접근하려면 argocd-server 서비스의 타입을 변경해주거나 argocd-server 서비스를 ingress와 연동하는 등의 추가 작업을 해야 합니다. 
 
+### 방법 2) Ingress로 노출
+아래는 ingress를 이용하는 방법입니다. 
+ingress.yaml 내 spec.rules.host 필드를 적당한 DNS로 대체하여 ingress 리소스를 생성합니다.
+```
+kubectl apply -n argocd -f ingress.yaml
+```
 
-### admin 초기 비밀번호 및 비밀번호 재설정
+## admin 초기 비밀번호 및 비밀번호 재설정
 1. admin 계정의 초기 비밀번호 얻어오기
 - argocd 설치 시, super 계정인 admin 계정을 default로 생성합니다. 
 - admin 계정의 초기 비밀번호는 auto-gen되어 argocd 네임스페이스 내 시크릿 argocd-initial-admin-secret에 저장됩니다. 따라서 아래의 kubectl 커맨드로 우선 password을 얻어옵니다.
