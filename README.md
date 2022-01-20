@@ -84,7 +84,7 @@ kubectl apply -n argocd -f ingress.yaml
 
 ## admin 초기 비밀번호 및 비밀번호 재설정
 1. admin 계정의 초기 비밀번호 얻어오기
-- argocd 설치 시, super 계정인 admin 계정을 default로 생성합니다. 
+- argocd 설치 시, super 계정인 admin 계정은 자동으로 생성됩니다. 
 - admin 계정의 초기 비밀번호는 auto-gen되어 argocd 네임스페이스 내 시크릿 argocd-initial-admin-secret에 저장됩니다. 따라서 아래의 kubectl 커맨드로 우선 password을 얻어옵니다.
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
