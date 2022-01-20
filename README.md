@@ -9,10 +9,9 @@ export ARGOCD_WORKDIR=~/argocd-install
 ```
 
 * 이미지 환경 변수 설정
-    * 유의할 점 : latest에 반영된 dex 이미지와 redis 버전 체크.
+    * 아래는 v2.2.2 기준 가이드입니다
 ```
-export ARGOCD_IMG_URL=quay.io/argoproj/argocd:latest
-export ARGOCD_NOTIFICATION_IMG_URL=argoprojlabs/argocd-notifications:latest
+export ARGOCD_IMG_URL=quay.io/argoproj/argocd:v2.2.2
 export DEX_IMG_URL=ghcr.io/dexidp/dex:v2.30.0
 export REDIS_IMG_URL=redis:6.2.4-alpine
 ```
@@ -24,9 +23,6 @@ cd $ARGOCD_WORKDIR
 ```
 sudo docker pull ARGOCD_IMG_URL
 sudo docker save ARGOCD_IMG_URL > argocd.tar
-
-sudo docker pull ARGOCD_NOTIFICATION_IMG_URL
-sudo docker save ARGOCD_NOTIFICATION_IMG_URL > argocd-notification.tar
 
 sudo docker pull DEX_IMG_URL
 sudo docker save DEX_IMG_URL > dex.tar
@@ -42,12 +38,8 @@ export REGISTRY=registryip:port
 * 생성한 이미지 tar 파일을 폐쇄망 환경으로 이동시킨 뒤 사용하려는 registry에 push.
 ```
 sudo docker load < argocd.tar
-sudo docker tag ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:latest
-sudo docker push ${REGISTRY}/argoproj/argocd:latest
-
-sudo docker load < argocd-notification.tar
-sudo docker tag  ARGOCD_NOTIFICATION_IMG_URL ${REGISTRY}/argoprojlabs/argocd-notifications:latest
-sudo docker push ${REGISTRY}/argoprojlabs/argocd-notifications:latest
+sudo docker tag ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:v2.2.2
+sudo docker push ${REGISTRY}/argoproj/argocd:v2.2.2
 
 sudo docker load < dex.tar
 sudo docker tag DEX_IMG_URL ${REGISTRY}/dexidp/dex:v2.30.0
@@ -60,8 +52,7 @@ sudo docker push ${REGISTRY}/redis:6.2.4-alpine
 
 * 레지스트리에 푸시된 이미지들을 install.yaml에 반영
 ```
-sed -i "s/quay.io/${REGISTRY}/g" install.yaml		 
-sed -i "s/argoprojlabs/${REGISTRY}\/argoprojlabs/g" install.yaml		 
+sed -i "s/quay.io/${REGISTRY}/g" install.yaml		 	 
 sed -i "s/ghcr.io/${REGISTRY}/g" install.yaml		 
 sed -i "s/redis:6.2.4-alpine/${REGISTRY}\/redis:6.2.4-alpine/g" install.yaml		 
 ```
