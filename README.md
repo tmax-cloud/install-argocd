@@ -1,4 +1,4 @@
-# install-argocd
+# install-argocd 
 ## 폐쇄망 구축 가이드
 > 아래의 가이드는, 우선적으로 외부 네트워크 통신이 가능한 환경에서 필요한 이미지들을 tar로 다운받고, 해당 tar들을 폐쇄망으로 이동시켜 작업합니다. 폐쇄망이 아니라면, 바로 마지막 단계인 "yaml 설치" 단계로 넘어가주시길 바랍니다
 
@@ -62,6 +62,8 @@ sed -i "s/redis:6.2.4-alpine/${REGISTRY}\/redis:6.2.4-alpine/g" install.yaml
 kubectl create namespace argocd
 kubectl apply -n argocd -f install.yaml
 ```
+## HyperAuth 연동
+[gatekeeper 연동 가이드](https://github.com/tmax-cloud/install-argocd/blob/main/docs/gatekeeper%20%EC%97%B0%EB%8F%99%20%EA%B0%80%EC%9D%B4%EB%93%9C.md)
 
 ## ArgoCD Server에 접근
 기본적으로 ArgoCD API Server는 external IP로 노출이 되지 않기 때문에, ArgoCD Server에 UI로 접근하려면 argocd-server 서비스의 타입을 변경해주거나 argocd-server 서비스를 ingress와 연동하는 등의 추가 작업을 해야 합니다. 
