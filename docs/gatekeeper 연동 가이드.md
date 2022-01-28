@@ -33,11 +33,9 @@ traefik을 사용하여 gatekeeper와 연동하는 임시 가이드입니다.
 ```
 kubectl apply -f argocd-gatekeeper-forbidden-cm.yaml
 ```
-### 3. Deployment 'argocd-server' 대체
-* gatekeeper/argocd-server-deployment.yaml로 기존 리소스 대체
-* gatekeeper 컨테이너 내, client-secret 수정할 것
+### 3. Certificate 생성
 ```
-kubectl apply -f argocd-server-deployment.yaml
+kubectl apply -f certificate.yaml
 ```
 ### 4. Service 'argocd-server' 대체
 ```
@@ -49,9 +47,11 @@ kubectl apply -f argocd-server-svc.yaml
 kubectl apply -f ingress-route.yaml
 ```
 
-### 6. Certificate 생성
+### 6. Deployment 'argocd-server' 대체
+* gatekeeper/argocd-server-deployment.yaml로 기존 리소스 대체
+* gatekeeper 컨테이너 내, client-secret, discovery-url 수정할 것
 ```
-kubectl apply -f certificate.yaml
+kubectl apply -f argocd-server-deployment.yaml
 ```
 
 ### 7. Configmap 'argocd-cm' 대체
