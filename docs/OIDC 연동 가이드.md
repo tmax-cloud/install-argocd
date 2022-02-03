@@ -45,7 +45,7 @@ kubectl edit secret argocd-secret -n argocd
 ```
 ### 3. Configmap 'argocd-cm' 내 OIDC config 추가
 ```
-kubectl edit configmap argocd-cm
+kubectl edit configmap argocd-cm -n argocd
 ```
 argocd, hyperauth hostname으로 각각 url, issuer 수정할 것
 ```
