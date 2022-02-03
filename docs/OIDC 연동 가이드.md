@@ -22,7 +22,7 @@
 * 1-6) 클라이언트 argocd에 groups 스코프 할당 (Clients > argocd > Client Scopes)
     * Default Client Scopes 목록에서 groups를 선택하여 'Add selected >>' 버튼 클릭
 * 1-7) 'argocd-admin' 그룹 생성(Groups에서 New 클릭)
-    * Name: argocd-admin
+    * Name: argocd-admin (HyperCloud5와 같은 기존에 사용하던 그룹 사용할 시, 이 과정은 생략해도 됨)
 * 1-8) argocd 접근을 부여하고자하는 관리자 계정에 'argocd-admin' 그룹 멤버쉽 부여 (Users > '관리자계정' 클릭 > Groups > Available Groups 리스트 내 argocd-admin 선택 후 Join 클릭)
 ### 2. 1-3 단계에서 복사한 Client Secret을 argocd-secret에 적용
 * 2-1) 복사한 secret을 base64로 인코딩 (아래 예시 참고)
@@ -73,7 +73,7 @@ metadata:
   name: argocd-rbac-cm
 data:
   policy.csv: |
-    g, argocd-admin, role:admin
+    g, argocd-admin, role:admin #HyperCloud5와 같은 기존에 사용하던 그룹 사용할 시, 'argocd-admin'을 해당 그룹으로 대체할 것
 ```
 
 ### 5. Login via keycloak 
