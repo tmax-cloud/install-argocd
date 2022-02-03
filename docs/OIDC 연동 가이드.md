@@ -75,3 +75,5 @@ data:
   policy.csv: |
     g, argocd-admin, role:admin
 ```
+
+### 5. Login via keycloak 
