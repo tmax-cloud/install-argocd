@@ -73,7 +73,7 @@ metadata:
   name: argocd-rbac-cm
 data:
   policy.csv: |
-    g, argocd-admin, role:admin #HyperCloud5와 같은 기존에 사용하던 그룹 사용할 시, 'argocd-admin'을 해당 그룹으로 대체할 것
+    g, argocd-admin, role:admin #기존에 이미 있는 그룹을 사용해도 무방. 'argocd-admin'을 해당 그룹으로 대체할 것
 ```
 
 ### 5. Login via keycloak 
