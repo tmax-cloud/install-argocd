@@ -1,5 +1,4 @@
 # OIDC 연동 가이드 
-* 
 ## Prerequisite
 * argocd installed
 * hyperauth installed and Realm Tmax existed
