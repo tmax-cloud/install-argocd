@@ -8,7 +8,6 @@
 * 1-1) tmax Realm을 선택 후, 'argocd' client 생성 (Clients > Create 버튼 클릭)
     * Client ID : argocd
     * Client protocol : openid-connect
-    * Root URL : argocd hostname 입력 (예 - https://argocd.example.com)
 * 1-2) client 생성 후, argocd 상세페이지에서 아래처럼 항목 선택 및 기입
     * Access type: confidential
     * Valid Redirect URIs : *
