@@ -26,6 +26,7 @@ data:
 
 ```
 - secret의 name은 gen-secret-name.py 실행하여 나온 결과값을 기입할 것
+  - [gen-secret-name.py](https://github.com/tmax-cloud/install-argocd/blob/d94c7edf3463bc868fb9449cc54ed40ba4e7cae4/gen-secret-name.py)
 - data 내 insecure, project, type은 고정이므로 그대로 사용할 것
 - url, username, password, tlsClientCertKey는 각각 base64로 인코딩된 값을 넣어줄 것
 
