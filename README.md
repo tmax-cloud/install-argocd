@@ -74,7 +74,7 @@ kubectl apply -n argocd -f install.yaml
 kubectl apply -n argocd -f ingress.yaml
 ```
 ## Self-signed gitlab 연동
-[gitlab self-signed 가이드](https://github.com/tmax-cloud/install-argocd/blob/99514ba47c613169b656fdc496263196976f4e7b/docs/gitlab%20self-signed%20%EA%B0%80%EC%9D%B4%EB%93%9C.md)
+gen-gitlab-repo-secret.sh 실행 및 [gitlab self-signed 가이드](https://github.com/tmax-cloud/install-argocd/blob/99514ba47c613169b656fdc496263196976f4e7b/docs/gitlab%20self-signed%20%EA%B0%80%EC%9D%B4%EB%93%9C.md) 참고
 
 ## HyperAuth 연동
 [OIDC 연동 가이드](https://github.com/tmax-cloud/install-argocd/blob/main/docs/OIDC%20%EC%97%B0%EB%8F%99%20%EA%B0%80%EC%9D%B4%EB%93%9C.md)
