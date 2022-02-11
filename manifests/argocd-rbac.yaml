@@ -206,7 +206,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: argocd-application-controller
-  namespace: argocd
 subjects:
 - kind: ServiceAccount
   name: argocd-application-controller
@@ -225,7 +224,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: argocd-dex-server
-  namespace: argocd
 subjects:
 - kind: ServiceAccount
   name: argocd-dex-server
@@ -243,7 +241,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: argocd-redis
-  namespace: argocd
 subjects:
 - kind: ServiceAccount
   name: argocd-redis
@@ -262,7 +259,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: argocd-server
-  namespace: argocd
 subjects:
 - kind: ServiceAccount
   name: argocd-server
