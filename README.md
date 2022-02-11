@@ -10,11 +10,11 @@ export ARGOCD_WORKDIR=~/argocd-install
 ```
 
 * 이미지 환경 변수 설정
-    * 아래는 v2.2.2 기준 가이드입니다
+    * 아래는 v2.2.5 기준 가이드입니다
 ```
-export ARGOCD_IMG_URL=quay.io/argoproj/argocd:v2.2.2
-export DEX_IMG_URL=ghcr.io/dexidp/dex:v2.30.0
-export REDIS_IMG_URL=redis:6.2.4-alpine
+export ARGOCD_IMG_URL=quay.io/argoproj/argocd:v2.2.5
+export DEX_IMG_URL=ghcr.io/dexidp/dex:v2.30.2
+export REDIS_IMG_URL=redis:6.2.6-alpine
 ```
 * 작업 디렉토리로 이동
 ```
@@ -39,23 +39,23 @@ export REGISTRY=registryip:port
 * 생성한 이미지 tar 파일을 폐쇄망 환경으로 이동시킨 뒤 사용하려는 registry에 push.
 ```
 sudo docker load < argocd.tar
-sudo docker tag ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:v2.2.2
-sudo docker push ${REGISTRY}/argoproj/argocd:v2.2.2
+sudo docker tag ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:v2.2.5
+sudo docker push ${REGISTRY}/argoproj/argocd:v2.2.5
 
 sudo docker load < dex.tar
-sudo docker tag DEX_IMG_URL ${REGISTRY}/dexidp/dex:v2.30.0
-sudo docker push ${REGISTRY}/dexidp/dex:v2.30.0
+sudo docker tag DEX_IMG_URL ${REGISTRY}/dexidp/dex:v2.30.2
+sudo docker push ${REGISTRY}/dexidp/dex:v2.30.2
 
 sudo docker load < redis.tar
-sudo docker tag REDIS_IMG_URL ${REGISTRY}/redis:6.2.4-alpine
-sudo docker push ${REGISTRY}/redis:6.2.4-alpine
+sudo docker tag REDIS_IMG_URL ${REGISTRY}/redis:6.2.6-alpine
+sudo docker push ${REGISTRY}/redis:6.2.6-alpine
 ```
 
 * 레지스트리에 푸시된 이미지들을 install.yaml에 반영
 ```
 sed -i "s/quay.io/${REGISTRY}/g" install.yaml		 	 
 sed -i "s/ghcr.io/${REGISTRY}/g" install.yaml		 
-sed -i "s/redis:6.2.4-alpine/${REGISTRY}\/redis:6.2.4-alpine/g" install.yaml		 
+sed -i "s/redis:6.2.6-alpine/${REGISTRY}\/redis:6.2.4-alpine/g" install.yaml		 
 ```
 
 * yaml 설치
