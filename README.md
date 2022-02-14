@@ -55,7 +55,7 @@ sudo docker push ${REGISTRY}/redis:6.2.6-alpine
 ```
 sed -i "s/quay.io/${REGISTRY}/g" install_v2.2.5.yaml		 	 
 sed -i "s/ghcr.io/${REGISTRY}/g" install_v2.2.5.yaml		 
-sed -i "s/redis:6.2.6-alpine/${REGISTRY}\/redis:6.2.4-alpine/g" install_v2.2.5.yaml		 
+sed -i "s/redis:6.2.6-alpine/${REGISTRY}\/redis:6.2.6-alpine/g" install_v2.2.5.yaml		 
 ```
 
 * yaml 설치 (폐쇄망이 아닌 환경이라면, 여기서 부터 진행할 것)
