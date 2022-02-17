@@ -22,14 +22,14 @@ cd $ARGOCD_WORKDIR
 ```
 * 외부 네트워크 통신이 가능한 환경에서 필요한 이미지 다운로드
 ```
-sudo docker pull ARGOCD_IMG_URL
-sudo docker save ARGOCD_IMG_URL > argocd.tar
+sudo docker pull $ARGOCD_IMG_URL
+sudo docker save $ARGOCD_IMG_URL > argocd.tar
 
-sudo docker pull DEX_IMG_URL
-sudo docker save DEX_IMG_URL > dex.tar
+sudo docker pull $DEX_IMG_URL
+sudo docker save $DEX_IMG_URL > dex.tar
 
-sudo docker pull REDIS_IMG_URL
-sudo docker save REDIS_IMG_URL > redis.tar
+sudo docker pull $REDIS_IMG_URL
+sudo docker save $REDIS_IMG_URL > redis.tar
 ```
 * 레지스트리 환경 변수 설정
 ```
@@ -39,15 +39,15 @@ export REGISTRY=registryip:port
 * 생성한 이미지 tar 파일을 폐쇄망 환경으로 이동시킨 뒤 사용하려는 registry에 push.
 ```
 sudo docker load < argocd.tar
-sudo docker tag ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:v2.2.5
+sudo docker tag $ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:v2.2.5
 sudo docker push ${REGISTRY}/argoproj/argocd:v2.2.5
 
 sudo docker load < dex.tar
-sudo docker tag DEX_IMG_URL ${REGISTRY}/dexidp/dex:v2.30.2
+sudo docker tag $DEX_IMG_URL ${REGISTRY}/dexidp/dex:v2.30.2
 sudo docker push ${REGISTRY}/dexidp/dex:v2.30.2
 
 sudo docker load < redis.tar
-sudo docker tag REDIS_IMG_URL ${REGISTRY}/redis:6.2.6-alpine
+sudo docker tag $REDIS_IMG_URL ${REGISTRY}/redis:6.2.6-alpine
 sudo docker push ${REGISTRY}/redis:6.2.6-alpine
 ```
 
