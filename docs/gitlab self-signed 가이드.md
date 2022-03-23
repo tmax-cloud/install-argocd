@@ -3,7 +3,7 @@
 gitlab에 공인인증서가 아닌 self-signed 인증서를 사용할 경우, argocd에 git repo 정보를 등록해줘야 하는데, argocd 설치 시 이를 등록시켜주려 함
 ## 1. repo-secret-yaml.form 참고하여, repo secret 매니페스트 작성
 각 필드에 맞는 값들을 base64 인코딩해서 넣어주면 됨.
-아래 repo-secret-yaml.form 참고
+아래 [repo-secret-yaml.form](https://github.com/tmax-cloud/install-argocd/blob/main/repo-secret-yaml.form) 참고
 ```
 apiVersion: v1
 kind: Secret
