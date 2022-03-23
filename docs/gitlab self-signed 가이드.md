@@ -26,7 +26,7 @@ data:
 
 ```
 - secret의 name은 gen-secret-name.py 실행하여 나온 결과값을 기입할 것
-  - [gen-secret-name.py](https://github.com/tmax-cloud/install-argocd/blob/d94c7edf3463bc868fb9449cc54ed40ba4e7cae4/gen-secret-name.py)
+  - [gen-secret-name.py](https://github.com/tmax-cloud/install-argocd/blob/main/gen-secret-name.py)
   - 인자로 repo url을 넣어줄 것(아래 예시)
 ```
 python3 gen-secret-name.py https://gitlab.example.com/my-org/argocd-installer.git
