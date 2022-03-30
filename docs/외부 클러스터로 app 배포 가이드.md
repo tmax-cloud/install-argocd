@@ -3,8 +3,8 @@
 
 0. argocd가 설치되어 있는 클러스터 config에 타겟 클러스터 config를 병합
 1. 배포하려는 타겟 클러스터로 컨텍스트 설정
-- kubectl config use-context {{ 클러스터-컨텍스트-이름 }}
-- kubectl config set current-context {{ 클러스터컨텍스트-이름 }}
+- kubectl config use-context {{ 클러스터-컨텍스트-이름 }} 또는 
+- kubectl config set current-context {{ 클러스터컨텍스트-이름 }} 을 사용하여 컨텍스트 체인지.
 2. argocd login {{ 호스트명 }}
 - 여기서 호스트명은 argocd 서버 주소. 
 3. argocd cluster add {{ 컨텍스트명 }}
