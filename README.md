@@ -107,3 +107,10 @@ kubectl -n argocd patch secret argocd-secret \
     "admin.passwordMtime": "'$(date +%FT%T%Z)'"
   }}'
 ```
+
+### CLI 설치 가이드 (온라인)
+```
+VERSION=v2.2.5 # Select desired TAG from https://github.com/argoproj/argo-cd/releases
+curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
+chmod +x /usr/local/bin/argocd
+```
