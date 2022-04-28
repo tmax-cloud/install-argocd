@@ -51,17 +51,17 @@ sudo docker tag $REDIS_IMG_URL ${REGISTRY}/redis:6.2.6-alpine
 sudo docker push ${REGISTRY}/redis:6.2.6-alpine
 ```
 
-* 레지스트리에 푸시된 이미지들을 install_v2.2.5.yaml에 반영
+* 레지스트리에 푸시된 이미지들을 install.yaml에 반영
 ```
-sed -i "s/quay.io/${REGISTRY}/g" install_v2.2.5.yaml		 	 
-sed -i "s/ghcr.io/${REGISTRY}/g" install_v2.2.5.yaml		 
-sed -i "s/redis:6.2.6-alpine/${REGISTRY}\/redis:6.2.6-alpine/g" install_v2.2.5.yaml		 
+sed -i "s/quay.io/${REGISTRY}/g" install.yaml		 	 
+sed -i "s/ghcr.io/${REGISTRY}/g" install.yaml		 
+sed -i "s/redis:6.2.6-alpine/${REGISTRY}\/redis:6.2.6-alpine/g" install.yaml		 
 ```
 
 * yaml 설치 (폐쇄망이 아닌 환경이라면, 여기서 부터 진행할 것)
 ```
 kubectl create namespace argocd
-kubectl apply -n argocd -f install_v2.2.5.yaml
+kubectl apply -n argocd -f install.yaml
 ```
  
 ## ArgoCD Server에 접근
