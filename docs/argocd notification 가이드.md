@@ -58,12 +58,38 @@ data:
     service.slack: | token: <여기에 토큰을 입력> ...
 ``` 
 3. 모니터링할 Application의 annotations 수정
+- 예시) sync가 성공했을 때 알림 설정
 ```
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: <여기에 알람을 받을 채널 이름 기입>
+```
+### 알림을 받고 싶은 상태 설정
+- Sync가 성공했을 때 알림
+```
+notifications.argoproj.io/subscribe.on-sync-succeeded.slack: <슬랙 채널 이름>
+```
+- Sync가 실패했을 때 알림
+```
+notifications.argoproj.io/subscribe.on-sync-failed.slack: <슬랙 채널 이름>
+```
+- Sync가 진행중일 때 알림
+```
+notifications.argoproj.io/subscribe.on-sync-running.slack: <슬랙 채널 이름>
+```
+- Sync 상태가 Unknown일 떄 알림
+```
+notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: <슬랙 채널 이름>
+```
+- Health가 Degrade 되었을 때 알림
+```
+notifications.argoproj.io/subscribe.on-health-degraded.slack: <슬랙 채널 이름>
+```
+- Deploy 되었을 때 알림
+```
+notifications.argoproj.io/subscribe.on-deployed.slack: <슬랙 채널 이름>
 ```
 
 ## Email 연동 가이드
