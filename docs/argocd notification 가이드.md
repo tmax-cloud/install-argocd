@@ -9,11 +9,15 @@
 - 쿠버네티스 클러스터에 ArgoCD가 설치되어 있어야 한다. 
   - 같은 네임스페이스에 설치시켜줘야 함
 
-## 설치
+## Argo CD Notifications 설치
 - argocd가 설치되어 있는 네임스페이스에 argocd-notifications 설치 (manifests 디렉토리 아래 있음)
   - argocd-notifications-controller-{랜덤 스트링...} pod가 Running 상태인지 확인
 ```
 kubectl apply -n argocd -f argocd-notifications.yaml
+```
+## Triggers & Template 설치
+```
+kubectl apply -n argocd -f argocd-notifications-cm.yaml
 ```
 ## Slack 연동 가이드
 ### Slack 설정
@@ -51,8 +55,36 @@ kind: ConfigMap
 metadata: 
     name: argocd-notifications-cm 
 data: 
-    service.slack: | token: <여기에 토큰을 입력합니다> ...
+    service.slack: | token: <여기에 토큰을 입력> ...
+``` 
+3. 모니터링할 Application의 annotations 수정
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: <여기에 알람을 받을 채널 이름 기입>
 ```
 
+## Email 연동 가이드
+Email은 SMTP 프로토콜을 사용하여서 아래의 정보를 가지고 argocd-notifications-cm을 수정해줘야 함
+- host - the SMTP server host name
+- port - the SMTP server port
+- username - username
+- password - password
+- from - from email address
 
-
+Example. Gmail을 사용할 경우
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+data:
+  service.email.gmail: |
+    username: $email-username
+    password: $email-password
+    host: smtp.gmail.com
+    port: 465
+    from: $email-username
+```
