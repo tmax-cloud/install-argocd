@@ -129,3 +129,4 @@ on-sync-succeeded 외 상태는 위에 참고
 
 ### Gmail 유의사항
 - gmail 설정에서 보안수준이 낮은 앱에 대한 액세스를 허용해야 함
+![image](https://user-images.githubusercontent.com/36444454/166196912-7227e68c-2717-46e0-9a12-9b6836df634e.png)
