@@ -55,7 +55,8 @@ kind: ConfigMap
 metadata: 
     name: argocd-notifications-cm 
 data: 
-    service.slack: | token: <여기에 토큰을 입력> ...
+    service.slack: | 
+      token: <여기에 토큰을 입력> ...
 ``` 
 3. 모니터링할 Application의 annotations 수정
 - 예시) sync가 성공했을 때 알림 설정
