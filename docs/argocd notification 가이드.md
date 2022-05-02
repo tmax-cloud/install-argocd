@@ -115,3 +115,17 @@ data:
     port: 465
     from: $email-username
 ```
+
+Slack과 마찬가지로, 모니터링할 Application의 annotations 수정
+Example. Gmail을 사용할 경우, 
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.gmail: <여기에 알람을 받을 gmail 주소>
+```
+on-sync-succeeded 외 상태는 위에 참고
+
+### Gmail 유의사항
+- gmail 설정에서 보안수준이 낮은 앱에 대한 액세스를 허용해야 함
