@@ -130,3 +130,89 @@ on-sync-succeeded 외 상태는 위에 참고
 ### Gmail 유의사항
 - gmail 설정에서 보안수준이 낮은 앱에 대한 액세스를 허용해야 함
 ![image](https://user-images.githubusercontent.com/36444454/166196912-7227e68c-2717-46e0-9a12-9b6836df634e.png)
+
+## Webhook 연동 가이드
+Webhook 서비스를 이용하면 타겟 서버로 http request를 보낼 수 있다.
+
+1. argocd-notifications-cm에 webhook 등록
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+data:
+  service.webhook.<webhook-name>: |
+    url: https://<hostname>/<optional-path>
+    headers: #optional headers
+    - name: <header-name>
+      value: <header-value>
+    basicAuth: #optional username password
+      username: <username>
+      password: <api-key>
+```
+예시) my-webhook이라는 웹훅 등록
+```
+service.webhook.my-webhook: |
+  url: http://example.com:8080
+  headers:
+  - name: Content-Type
+    value: application/json
+```
+
+2. Request 시 수행할 method와 path, body를 담은 템플릿 정의
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+data:
+  template.example: |
+    webhook:
+      <webhook-name>:
+        method: POST # one of: GET, POST, PUT, PATCH. Default value: GET 
+        path: <optional-path-template>
+        body: |
+          <optional-body-template>
+```
+예시)
+```
+template.my-json-data: |
+  webhook:
+    my-webhook:
+      method: POST
+      body: |
+        {
+          "name" : "helloworld"
+        }
+```
+3. 트리거에 위에서 정의한 템플릿 추가
+```
+trigger.<trigger-name>: |
+    ...
+      send:
+      - app-sync-succeeded
+      - << new-template >>
+    ...
+```
+예시)
+```
+  trigger.on-sync-succeeded: |
+    - description: Application syncing has succeeded
+      send:
+      - app-sync-succeeded
+      - my-json-data
+      when: app.status.operationState.phase in ['Succeeded']
+```
+
+4. 모니터링할 Application에 webhook annotation 추가
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.<trigger-name>.<webhook-name>: ""
+```
+예시) 
+```
+notifications.argoproj.io/subscribe.on-sync-succeeded.my-webhook: ""
+```
