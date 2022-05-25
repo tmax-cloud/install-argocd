@@ -1,5 +1,10 @@
 # install-argocd
 이 레포지토리는 argocd 모듈의 인스톨 가이드 입니다. 
+## 개요
+ArgoCD는 쿠버네티스 환경을 위한 GitOps 기반 CD 도구 입니다.
+Application에 Git source와 Target Cluster를 등록 후 사용 합니다.
+![image](https://raw.githubusercontent.com/tmax-cloud/install-argocd/main/docs/argocd.PNG)
+
 ## 폐쇄망 구축 가이드
 > 아래의 가이드는, 우선적으로 외부 네트워크 통신이 가능한 환경에서 필요한 이미지들을 tar로 다운받고, 해당 tar들을 폐쇄망으로 이동시켜 작업합니다. 폐쇄망이 아니라면, 바로 마지막 단계인 "yaml 설치" 단계로 넘어가주시길 바랍니다
 
