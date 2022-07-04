@@ -18,6 +18,7 @@
     * Name : groups
     * Mapper Type: Group Membership
     * Token Claim Name: groups
+    * (유의) 이 때, Full group path는 OFF에 체크되어야 함
 * 1-6) 클라이언트 argocd에 groups 스코프 할당 (Clients > argocd > Client Scopes)
     * Default Client Scopes 목록에서 groups를 선택하여 'Add selected >>' 버튼 클릭
 * 1-7) 'argocd-admin' 그룹 생성(Groups에서 New 클릭)
