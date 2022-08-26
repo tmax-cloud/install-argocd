@@ -2568,15 +2568,6 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
-    app.kubernetes.io/component: dex-server
-    app.kubernetes.io/name: argocd-dex-server
-    app.kubernetes.io/part-of: argocd
-  name: argocd-dex-server
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
     app.kubernetes.io/component: redis
     app.kubernetes.io/name: argocd-redis
     app.kubernetes.io/part-of: argocd
@@ -2629,25 +2620,6 @@ rules:
   verbs:
   - create
   - list
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  labels:
-    app.kubernetes.io/component: dex-server
-    app.kubernetes.io/name: argocd-dex-server
-    app.kubernetes.io/part-of: argocd
-  name: argocd-dex-server
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  - configmaps
-  verbs:
-  - get
-  - list
-  - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -2758,22 +2730,6 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argocd-application-controller
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  labels:
-    app.kubernetes.io/component: dex-server
-    app.kubernetes.io/name: argocd-dex-server
-    app.kubernetes.io/part-of: argocd
-  name: argocd-dex-server
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: argocd-dex-server
-subjects:
-- kind: ServiceAccount
-  name: argocd-dex-server
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -2921,43 +2877,10 @@ type: kubernetes.io/service-account-token
 apiVersion: v1
 kind: Secret
 metadata:
-  name: argocd-dex-server-token
-  annotations:
-    kubernetes.io/service-account.name: argocd-dex-server
-type: kubernetes.io/service-account-token
----
-apiVersion: v1
-kind: Secret
-metadata:
   name: argocd-server-token
   annotations:
     kubernetes.io/service-account.name: argocd-server
 type: kubernetes.io/service-account-token
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app.kubernetes.io/component: dex-server
-    app.kubernetes.io/name: argocd-dex-server
-    app.kubernetes.io/part-of: argocd
-  name: argocd-dex-server
-spec:
-  ports:
-  - name: http
-    port: 5556
-    protocol: TCP
-    targetPort: 5556
-  - name: grpc
-    port: 5557
-    protocol: TCP
-    targetPort: 5557
-  - name: metrics
-    port: 5558
-    protocol: TCP
-    targetPort: 5558
-  selector:
-    app.kubernetes.io/name: argocd-dex-server
 ---
 apiVersion: v1
 kind: Service
@@ -3050,80 +2973,6 @@ spec:
     targetPort: 8083
   selector:
     app.kubernetes.io/name: argocd-server
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app.kubernetes.io/component: dex-server
-    app.kubernetes.io/name: argocd-dex-server
-    app.kubernetes.io/part-of: argocd
-  name: argocd-dex-server
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: argocd-dex-server
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: argocd-dex-server
-    spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/part-of: argocd
-              topologyKey: kubernetes.io/hostname
-            weight: 5
-      containers:
-      - command:
-        - /shared/argocd-dex
-        - rundex
-        image: ghcr.io/dexidp/dex:v2.30.2
-        imagePullPolicy: Always
-        name: dex
-        ports:
-        - containerPort: 5556
-        - containerPort: 5557
-        - containerPort: 5558
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-        volumeMounts:
-        - mountPath: /shared
-          name: static-files
-        - mountPath: /tmp
-          name: dexconfig
-        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-          name: argocd-dex-server-secret
-      initContainers:
-      - command:
-        - cp
-        - -n
-        - /usr/local/bin/argocd
-        - /shared/argocd-dex
-        image: quay.io/argoproj/argocd:v2.2.5
-        imagePullPolicy: Always
-        name: copyutil
-        volumeMounts:
-        - mountPath: /shared
-          name: static-files
-        - mountPath: /tmp
-          name: dexconfig
-        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-          name: argocd-dex-server-secret
-      serviceAccountName: argocd-dex-server
-      volumes:
-      - emptyDir: {}
-        name: static-files
-      - emptyDir: {}
-        name: dexconfig
-      - name: argocd-dex-server-secret
-        secret:
-          secretName: argocd-dex-server-token
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -3450,12 +3299,6 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: repo.server
-              name: argocd-cmd-params-cm
-              optional: true
-        - name: ARGOCD_SERVER_DEX_SERVER
-          valueFrom:
-            configMapKeyRef:
-              key: server.dex.server
               name: argocd-cmd-params-cm
               optional: true
         - name: ARGOCD_SERVER_DISABLE_AUTH
@@ -3825,32 +3668,6 @@ spec:
   podSelector:
     matchLabels:
       app.kubernetes.io/name: argocd-application-controller
-  policyTypes:
-  - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: argocd-dex-server-network-policy
-spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: argocd-server
-    ports:
-    - port: 5556
-      protocol: TCP
-    - port: 5557
-      protocol: TCP
-  - from:
-    - namespaceSelector: {}
-    ports:
-    - port: 5558
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: argocd-dex-server
   policyTypes:
   - Ingress
 ---
