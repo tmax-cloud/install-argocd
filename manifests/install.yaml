@@ -3012,6 +3012,8 @@ spec:
         - ""
         - --appendonly
         - "no"
+        - --loglevel # warning, notice, verbose, debug 
+        - "warning"
         image: redis:6.2.6-alpine
         imagePullPolicy: Always
         name: redis
@@ -3061,6 +3063,8 @@ spec:
         - argocd-repo-server
         - --redis
         - argocd-redis:6379
+        - --loglevel # debug, info, warn, error
+        - "warn"
         env:
         - name: ARGOCD_RECONCILIATION_TIMEOUT
           valueFrom:
@@ -3264,6 +3268,8 @@ spec:
         - --staticassets
         - /shared/app
         - --insecure
+        - --loglevel # debug, info, warn, error
+        - "warn"
         env:
         - name: ARGOCD_SERVER_INSECURE
           valueFrom:
@@ -3513,6 +3519,8 @@ spec:
       containers:
       - command:
         - argocd-application-controller
+        - --loglevel # debug, info, warn, error
+        - "warn"
         env:
         - name: ARGOCD_RECONCILIATION_TIMEOUT
           valueFrom:
