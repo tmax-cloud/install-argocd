@@ -25,3 +25,23 @@ spec:
   - hosts:
     - argocd.{{ custom_domain_name }}
     secretName: argocd-secret # do not change, this is provided by Argo CD
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: argo-rollouts-dashboard
+  namespace: argo-rollouts
+spec:
+  ingressClassName: tmax-cloud
+  rules:
+  - host: argorollouts.{{ custom_domain_name }} # 이 {{ }} 부분을 유효한 DNS로 바꿔줘야 합니다.
+    http:
+      paths:
+      - backend:
+          serviceName: argo-rollouts-dashboard
+          servicePort: 3100
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - argorollouts.{{ custom_domain_name }}
