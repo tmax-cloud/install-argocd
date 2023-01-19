@@ -1,27 +1,26 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server-ingress
-  namespace: argocd
+  name: argocd-rollouts-dashboard
+  namespace: argocd-rollouts
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
   labels:
-    ingress.tmaxcloud.org/name: argocd
+    ingress.tmaxcloud.org/name: argocd-rollouts
 spec:
   rules:
-  - host: argocd.{{ custom_domain_name }} # 이 {{ }} 부분을 유효한 DNS로 바꿔줘야 합니다.
+  - host: argorollouts.{{ custom_domain_name }} # 이 {{ }} 부분을 유효한 DNS로 바꿔줘야 합니다.
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: argocd-server
+            name: argocd-rollouts-dashboard
             port:
-              name: https
+              name: https-rollouts
   tls:
   - hosts:
-    - argocd.{{ custom_domain_name }}
-    secretName: argocd-secret # do not change, this is provided by Argo CD
+    - argocdrollouts.{{ custom_domain_name }}
