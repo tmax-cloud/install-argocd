@@ -15,10 +15,11 @@ export ARGOCD_WORKDIR=~/argocd-install
 ```
 
 * 이미지 환경 변수 설정
-    * 아래는 v2.2.5 기준 가이드입니다
+    * 아래는 v2.6.0-rc4 기준 가이드입니다
 ```
-export ARGOCD_IMG_URL=quay.io/argoproj/argocd:v2.2.5
-export REDIS_IMG_URL=redis:6.2.6-alpine
+export ARGOCD_IMG_URL=quay.io/argoproj/argocd:v2.6.0-rc4
+export DEX_IMG_UTL=ghcr.io/dexidp/dex:v2.35.3
+export REDIS_IMG_URL=redis:7.0.7-alpine
 ```
 * 작업 디렉토리로 이동
 ```
@@ -28,6 +29,9 @@ cd $ARGOCD_WORKDIR
 ```
 sudo docker pull $ARGOCD_IMG_URL
 sudo docker save $ARGOCD_IMG_URL > argocd.tar
+
+sudo docker pull $DEX_IMG_UTL
+sudo docker save $DEX_IMG_UTL > dex.tar
 
 sudo docker pull $REDIS_IMG_URL
 sudo docker save $REDIS_IMG_URL > redis.tar
@@ -40,25 +44,37 @@ export REGISTRY=registryip:port
 * 생성한 이미지 tar 파일을 폐쇄망 환경으로 이동시킨 뒤 사용하려는 registry에 push.
 ```
 sudo docker load < argocd.tar
-sudo docker tag $ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:v2.2.5
-sudo docker push ${REGISTRY}/argoproj/argocd:v2.2.5
+sudo docker tag $ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:v2.6.0-rc4
+sudo docker push ${REGISTRY}/argoproj/argocd:v2.6.0-rc4
+
+sudo docker load < dex.tar
+sudo docker tag $DEX_IMG_UTL ${REGISTRY}/dexidp/dex:v2.35.3
+sudo docker push ${REGISTRY}/dexidp/dex:v2.35.3
 
 sudo docker load < redis.tar
-sudo docker tag $REDIS_IMG_URL ${REGISTRY}/redis:6.2.6-alpine
-sudo docker push ${REGISTRY}/redis:6.2.6-alpine
+sudo docker tag $REDIS_IMG_URL ${REGISTRY}/redis:7.0.7-alpine
+sudo docker push ${REGISTRY}/redis:7.0.7-alpine
 ```
 
 * 레지스트리에 푸시된 이미지들을 install.yaml에 반영
 ```
 sed -i "s/quay.io/${REGISTRY}/g" install.yaml		 	 
 sed -i "s/ghcr.io/${REGISTRY}/g" install.yaml		 
-sed -i "s/redis:6.2.6-alpine/${REGISTRY}\/redis:6.2.6-alpine/g" install.yaml		 
+sed -i "s/redis:7.0.7-alpine/${REGISTRY}\/redis:7.0.7-alpine/g" install.yaml		 
 ```
 
 * yaml 설치 (폐쇄망이 아닌 환경이라면, 여기서 부터 진행할 것)
 ```
 kubectl create namespace argocd
 kubectl apply -n argocd -f install.yaml
+
+kubectl create namespace argo-rollouts
+kubectl apply -n argo-rollouts -f install-rollouts.yaml
+```
+* yaml 설치 및 삭제 자동화 스크립트 
+```
+sh install.sh
+sh delete.sh
 ```
  
 ## ArgoCD Server에 접근
@@ -103,6 +119,10 @@ kubectl -n argocd patch secret argocd-secret \
     "admin.password": "{새로운 비밀번호에 대한 해쉬값을 여기 넣어주세요}",
     "admin.passwordMtime": "'$(date +%FT%T%Z)'"
   }}'
+```
+3. 또는 init 비밀번호를 amin 으로 자동 초기화해주는 스크립트 실행
+```
+sh set-password-to-admin.sh 
 ```
 
 ### CLI 설치 가이드 (온라인)
