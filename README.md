@@ -15,9 +15,9 @@ export ARGOCD_WORKDIR=~/argocd-install
 ```
 
 * 이미지 환경 변수 설정
-    * 아래는 v2.6.0-rc4 기준 가이드입니다
+    * 아래는 v2.5.7 기준 가이드입니다
 ```
-export ARGOCD_IMG_URL=quay.io/argoproj/argocd:v2.6.0-rc4
+export ARGOCD_IMG_URL=quay.io/argoproj/argocd:v2.5.7
 export DEX_IMG_UTL=ghcr.io/dexidp/dex:v2.35.3
 export REDIS_IMG_URL=redis:7.0.7-alpine
 ```
@@ -44,8 +44,8 @@ export REGISTRY=registryip:port
 * 생성한 이미지 tar 파일을 폐쇄망 환경으로 이동시킨 뒤 사용하려는 registry에 push.
 ```
 sudo docker load < argocd.tar
-sudo docker tag $ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:v2.6.0-rc4
-sudo docker push ${REGISTRY}/argoproj/argocd:v2.6.0-rc4
+sudo docker tag $ARGOCD_IMG_URL ${REGISTRY}/argoproj/argocd:v2.5.7
+sudo docker push ${REGISTRY}/argoproj/argocd:v2.5.7
 
 sudo docker load < dex.tar
 sudo docker tag $DEX_IMG_UTL ${REGISTRY}/dexidp/dex:v2.35.3
